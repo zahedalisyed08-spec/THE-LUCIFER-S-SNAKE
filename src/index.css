@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-mono: "VT323", "Courier New", monospace;
+}
+
+body {
+  background-color: #050505;
+  overflow: hidden;
+  font-family: var(--font-mono);
+}
+
+.crt-overlay {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 4px, 3px 100%;
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+}
+
+.static-noise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  opacity: 0.15;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  animation: staticAnim 0.2s infinite steps(2);
+}
+
+@keyframes staticAnim {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(2%, 2%); }
+}
+
+.glitch {
+  position: relative;
+  color: #00ffff;
+}
+.glitch::before, .glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #050505;
+}
+.glitch::before {
+  left: 3px;
+  text-shadow: -2px 0 #ff00ff;
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+.glitch::after {
+  left: -3px;
+  text-shadow: -2px 0 #00ffff;
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim-2 2.5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+  0% { clip: rect(11px, 9999px, 56px, 0); }
+  20% { clip: rect(65px, 9999px, 13px, 0); }
+  40% { clip: rect(100px, 9999px, 88px, 0); }
+  60% { clip: rect(14px, 9999px, 96px, 0); }
+  80% { clip: rect(31px, 9999px, 4px, 0); }
+  100% { clip: rect(83px, 9999px, 27px, 0); }
+}
+@keyframes glitch-anim-2 {
+  0% { clip: rect(81px, 9999px, 7px, 0); }
+  20% { clip: rect(25px, 9999px, 78px, 0); }
+  40% { clip: rect(50px, 9999px, 20px, 0); }
+  60% { clip: rect(90px, 9999px, 46px, 0); }
+  80% { clip: rect(12px, 9999px, 5px, 0); }
+  100% { clip: rect(67px, 9999px, 100px, 0); }
+}
+
+.tear {
+  animation: screen-tear 4s infinite ease-in-out;
+}
+@keyframes screen-tear {
+  0%, 94%, 98% { transform: translateX(0); opacity: 1; }
+  95% { transform: translateX(10px) skewX(20deg); opacity: 0.8; }
+  96% { transform: translateX(-10px) skewX(-20deg); opacity: 0.8; }
+  97% { transform: translateX(5px); opacity: 1; filter: hue-rotate(90deg); }
+}
